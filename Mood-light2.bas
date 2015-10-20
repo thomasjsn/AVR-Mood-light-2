@@ -1,7 +1,7 @@
 '--------------------------------------------------------------
 '                   Thomas Jensen | uCtrl.net
 '--------------------------------------------------------------
-'  file: AVR_MOOD_LAMP_2
+'  file: AVR_MOOD_LAMP_2_v1.1
 '  date: 14/03/2007
 '--------------------------------------------------------------
 $regfile = "m8def.dat"
@@ -17,8 +17,8 @@ Config Timer2 = Pwm , Prescale = 1 , Compare Pwm = Clear Down
 'input
 '2. Stable time
 '3. Fade speed
-'4. Direct crossover
-'5. Mode one/two color
+'4. Mode one/two color
+'5. Stabile red
 
 Ddrb.1 = 1
 Ddrb.2 = 1
@@ -28,8 +28,8 @@ Pwm1a = 255
 Pwm1b = 255
 Ocr2 = 255
 
-
-For A = 1 To 255                                            'boot start blue LED
+'boot start blue LED
+For A = 1 To 255
 Decr Ocr2
 If Pinc.3 = 0 Then Waitms 5 Else Waitms 15
 Next A
@@ -39,9 +39,10 @@ Gosub Switches
 Main:
 Do
 
-If Pinc.5 = 0 Then Goto Flerfarget
+If Pinc.4 = 0 Then Goto Flerfarget
 
-For A = 1 To 255                                            'increase red, decrease blue
+'increase red, decrease blue
+For A = 1 To 255
 Decr Pwm1a
 Incr Ocr2
 Waitms Fade
@@ -49,7 +50,8 @@ Next A
 
 Gosub Switches
 
-For A = 1 To 255                                            'decrease red, increase green
+'decrease red, increase green
+For A = 1 To 255
 Decr Pwm1b
 Incr Pwm1a
 Waitms Fade
@@ -57,7 +59,8 @@ Next A
 
 Gosub Switches
 
-For A = 1 To 255                                            'decrease green, increase blue
+'decrease green, increase blue
+For A = 1 To 255
 Decr Ocr2
 Incr Pwm1b
 Waitms Fade
@@ -65,13 +68,16 @@ Next A
 
 Gosub Switches
 
-If Pinc.5 = 1 Then Loop
-If Pinc.5 = 0 Then Goto Flerfarget
+If Pinc.4 = 1 Then Loop
+If Pinc.4 = 0 Then Goto Flerfarget
 
 Switches:
-If Pinc.2 = 0 Then Speed = 500 Else Speed = 200
-If Pinc.3 = 0 Then Fade = 5 Else Fade = 15
-If Pinc.4 = 0 Then Fade = 0
+If Pinc.2 = 0 Then Speed = 500 Else Speed = 1000
+If Pinc.3 = 0 Then Fade = 15 Else Fade = 30
+If Pinc.5 = 0 Then
+
+   Gosub Switches
+   End If
 
 Random = Rnd(speed)
 
@@ -84,52 +90,58 @@ Return
 Flerfarget:
 Pwm1a = 255
 Pwm1b = 255
-
-Ocr2 = 0                                                    'start blue
+'start blue
+Ocr2 = 0
 Do
-If Pinc.5 = 1 Then
+If Pinc.4 = 1 Then
      Pwm1a = 255
      Pwm1b = 255
      Ocr2 = 0
      Goto Main
    End If
 
-For A = 1 To 255                                            'increase red
+'increase red
+For A = 1 To 255
 Decr Pwm1a
 Waitms Fade
 Next A
 
 Gosub Switches
 
-For A = 1 To 255                                            'decrease blue
+'decrease blue
+For A = 1 To 255
 Incr Ocr2
 Waitms Fade
 Next A
 
 Gosub Switches
 
-For A = 1 To 255                                            'increase green
+'increase green
+For A = 1 To 255
 Decr Pwm1b
 Waitms Fade
 Next A
 
 Gosub Switches
 
-For A = 1 To 255                                            'decreate red
+'decrease red
+For A = 1 To 255
 Incr Pwm1a
 Waitms Fade
 Next A
 
 Gosub Switches
 
-For A = 1 To 255                                            'increase blue
+'increase blue
+For A = 1 To 255
 Decr Ocr2
 Waitms Fade
 Next A
 
 Gosub Switches
 
-For A = 1 To 255                                            'decrease green
+'decrease green
+For A = 1 To 255
 Incr Pwm1b
 Waitms Fade
 Next A

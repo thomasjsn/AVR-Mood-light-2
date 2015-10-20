@@ -1,6 +1,6 @@
 Report       : Mood-light2
 Date         : 10-21-2015
-Time         : 00:19:01
+Time         : 00:41:58
 
 Compiler     : BASCOM-AVR LIBRARY V 2.0.7.8
 Processor    : M8
@@ -8,8 +8,8 @@ SRAM         : 400 hex
 EEPROM       : 200 hex
 ROMSIZE      : 2000 hex
 
-ROMIMAGE     : 4B6 hex  -> Will fit into ROM
-ROMIMAGE     :  1206 dec
+ROMIMAGE     : 4AC hex  -> Will fit into ROM
+ROMIMAGE     :  1196 dec
 FLASH USED   :  14  %
 BAUD         : 9600 Baud
 XTAL         : 1000000 Hz
